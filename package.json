@@ -1,0 +1,15 @@
+{
+  "name": "passy",
+  "version": "0.1.0",
+  "description": "Pussycat 69",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "installAll": "npm install && cd libs/passedWS && npm install && cd ../.." 
+  },
+  "author": "@greysoh <greysoh at protonmail dot ch>",
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "ws": "^8.8.1"
+  }
+}
