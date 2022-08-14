@@ -1,41 +1,43 @@
-const PassProxy = require('./libs/passedWS/index.js');
+const PassProxy = require("./libs/passedWS/index.js");
 const { WebSocketServer } = require("ws"),
-      net = require("net");
+  net = require("net");
 
-const options = require('./options.json');
+class PassyServer {
+  constructor(options) {
+    this.options = options;
+  }
 
-const wss = new WebSocketServer({ port: options.unPassedPort });
+  async main() {
+    const options = this.options;
+    const wss = new WebSocketServer({ port: options.originalPort });
 
-async function main() {
-  console.log("Connecting proxies...");
-  console.log("- stage0: connecting to proxy");
+    wss.on("connection", async function (ws) {
+      ws.isReady = false;
 
-  wss.on("connection", async function (ws) {
-    ws.isReady = false;
+      const server = new net.Socket();
 
-    const server = new net.Socket();
+      server.connect(options.server.port, options.server.ip, function () {
+        ws.isReady = true;
+        ws.send("Passy: Connected");
+      });
 
-    server.connect(options.server.port, options.server.ip, function() {
-      ws.isReady = true;
-      ws.send("Passy: Connected");
+      server.on("data", function (data) {
+        if (ws.isReady) ws.send(data);
+      });
+
+      ws.on("message", function (data) {
+        if (ws.isReady) server.write(data);
+      });
     });
 
-    server.on("data", function (data) {
-      if (ws.isReady) ws.send(data);
+    const proxy = new PassProxy({
+      passwords: options.passwords,
+      proxy: "ws://localhost:" + options.originalPort,
+      port: options.passedPort,
     });
 
-    ws.on("message", function(data) {
-      if (ws.isReady) server.write(data);
-    })
-  })
-  const proxy = new PassProxy({
-    passwords: options.passwords,
-    proxy: 'ws://localhost:' + options.unPassedPort,
-    port: options.passedPort
-  });
-
-  console.log("- stage0: ready\n- stage1: connecting to proxy");
-  await proxy.init();
+    await proxy.init();
+  }
 }
 
-main();
+module.exports = PassyServer;
