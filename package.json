@@ -1,15 +1,24 @@
 {
-  "name": "passy",
+  "name": "@creamy-dev/passy",
   "version": "0.1.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "installAll": "npm install && cd libs/passedWS && npm install && cd ../.." 
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "@greysoh <greysoh at protonmail dot ch>",
   "license": "BSD-3-Clause",
   "dependencies": {
     "ws": "^8.8.1"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/greysoh/passy.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/greysoh/passy/issues"
+  },
+  "homepage": "https://github.com/greysoh/passy#readme",
+  "description": "Implementation of the Passy protocol."
 }
