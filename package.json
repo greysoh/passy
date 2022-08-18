@@ -8,9 +8,9 @@
   "author": "@greysoh <greysoh at protonmail dot ch>",
   "license": "BSD-3-Clause",
   "dependencies": {
+    "@creamy-dev/libincenerator": "^0.1.0",
     "ws": "^8.8.1"
   },
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/greysoh/passy.git"

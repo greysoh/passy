@@ -1,4 +1,5 @@
 const { WebSocketServer, WebSocket } = require("ws");
+const Server = require("@creamy-dev/libincenerator");
 
 module.exports = class Pass {
   constructor(options) {
@@ -21,7 +22,7 @@ module.exports = class Pass {
   async init() {
     const options = this.options;
 
-    this.proxy = new WebSocketServer({ port: this.options.port });
+    this.proxy = this.options.isIncenerator ? new Server(this.options.inceneratorOptions) : new WebSocketServer({ port: this.options.port });
 
     this.proxy.on("connection", async function (ws) {
       ws.connectState = false;
