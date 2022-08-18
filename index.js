@@ -30,11 +30,15 @@ class PassyServer {
       });
     });
 
-    const proxy = new PassProxy({
-      passwords: options.passwords,
-      proxy: "ws://localhost:" + options.originalPort,
-      port: options.passedPort,
-    });
+    let opts = this.options;
+
+    opts.port = opts.passedPort;
+    opts.proxy = "ws://localhost:" + opts.originalPort;
+
+    delete opts.originalPort;
+    delete opts.passedPort;
+
+    const proxy = new PassProxy(opts);
 
     await proxy.init();
   }
